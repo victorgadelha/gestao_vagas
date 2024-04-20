@@ -17,7 +17,7 @@ public class CandidateController {
     private CandidateRepository candidateRepository;
 
     @PostMapping()
-    public CandidateRepository create(@Valid @RequestBody CandidateEntity candidateEntity) {
-        return this.candidateRepository.save(candidateRepository);
+    public CandidateEntity create(@Valid @RequestBody CandidateEntity candidateEntity) {
+        return this.candidateRepository.save(candidateEntity);
     }
 }
