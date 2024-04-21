@@ -13,7 +13,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/candidate")
                             .permitAll()
-                            .requestMatchers("/company").permitAll();
+                            .requestMatchers("/company")
+                            .permitAll();
                     auth.anyRequest().authenticated();
                 });
         return http.build();
