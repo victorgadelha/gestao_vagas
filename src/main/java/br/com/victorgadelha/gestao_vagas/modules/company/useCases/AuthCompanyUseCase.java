@@ -29,16 +29,14 @@ public class AuthCompanyUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String execute(AuthCompanyDTO authCompanyDTO)
-            throws AuthenticationException {
-        var company = this.companyRepository
-                .findByUsername(authCompanyDTO.getUsername())
+    public String execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
+        var company = this.companyRepository.findByUsername(authCompanyDTO.getUsername())
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException("Invalid credentials");
                 });
 
-        var passwordMatches = this.passwordEncoder
-                .matches(authCompanyDTO.getPassword(), company.getPassword());
+        var passwordMatches = this.passwordEncoder.matches(authCompanyDTO.getPassword(),
+                company.getPassword());
 
         if (!passwordMatches) {
             throw new AuthenticationException();
