@@ -21,17 +21,17 @@ public class ExceptionHandlerController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<ErrorMessageDTO>> handleMethodArgumentValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<List<ErrorMessageDTO>> handleMethodArgumentValidException(
+            MethodArgumentNotValidException e) {
         List<ErrorMessageDTO> dto = new ArrayList<>();
 
-        e.getBindingResult()
-                .getFieldErrors()
-                .forEach(err -> {
-                    String message = messageSource
-                            .getMessage(err, LocaleContextHolder.getLocale());
-                    ErrorMessageDTO error = new ErrorMessageDTO(message, err.getField());
-                    dto.add(error);
-                });
+        e.getBindingResult().getFieldErrors().forEach(err -> {
+            String message = messageSource.getMessage(err,
+                    LocaleContextHolder.getLocale());
+            ErrorMessageDTO error = new ErrorMessageDTO(message,
+                    err.getField());
+            dto.add(error);
+        });
 
         return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
     }

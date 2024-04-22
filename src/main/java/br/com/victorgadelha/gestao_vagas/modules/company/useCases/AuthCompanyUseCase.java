@@ -29,14 +29,16 @@ public class AuthCompanyUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
+    public String execute(AuthCompanyDTO authCompanyDTO)
+            throws AuthenticationException {
         var company = this.companyRepository
                 .findByUsername(authCompanyDTO.getUsername())
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException("Invalid credentials");
                 });
 
-        var passwordMatches = this.passwordEncoder.matches(authCompanyDTO.getPassword(), company.getPassword());
+        var passwordMatches = this.passwordEncoder
+                .matches(authCompanyDTO.getPassword(), company.getPassword());
 
         if (!passwordMatches) {
             throw new AuthenticationException();
@@ -44,11 +46,9 @@ public class AuthCompanyUseCase {
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
-        var token = JWT.create()
-                .withIssuer("javagas")
+        var token = JWT.create().withIssuer("javagas")
                 .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
-                .withSubject(company.getId().toString())
-                .sign(algorithm);
+                .withSubject(company.getId().toString()).sign(algorithm);
         return token;
     }
 }
