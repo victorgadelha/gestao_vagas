@@ -19,8 +19,9 @@ public class JWTProvider {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         try {
-            var subjet = JWT.require(algorithm).build().verify(token).getSubject();
-            return subjet;
+            var subject = JWT.require(algorithm).build().verify(token).getSubject();
+            return subject;
+
         } catch (JWTVerificationException e) {
             e.printStackTrace();
             return "";
